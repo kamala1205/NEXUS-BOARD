@@ -1,4 +1,4 @@
--- users table (keep your existing users if needed; remove DROP if not needed)
+
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(100) NOT NULL,
@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash TEXT NOT NULL
 );
 
--- boards table
 CREATE TABLE IF NOT EXISTS boards (
   id SERIAL PRIMARY KEY,
   name VARCHAR(200) NOT NULL,
@@ -16,14 +15,14 @@ CREATE TABLE IF NOT EXISTS boards (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- mapping table: which users joined which boards
+
 CREATE TABLE IF NOT EXISTS user_boards (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   board_id INTEGER REFERENCES boards(id) ON DELETE CASCADE
 );
 
--- tasks table
+
 CREATE TABLE IF NOT EXISTS tasks (
   id SERIAL PRIMARY KEY,
   name VARCHAR(200) NOT NULL,
@@ -77,7 +76,6 @@ CREATE TABLE message_deletions (
 );
 
 
--- Board Activity Tracking Table
 
 CREATE TABLE IF NOT EXISTS login_activity (
     id SERIAL PRIMARY KEY,

@@ -37,7 +37,7 @@ model = genai.GenerativeModel("gemini-2.0-flash")
 DB_HOST = os.environ.get('DB_HOST', 'localhost')
 DB_NAME = os.environ.get('DB_NAME', 'nexusboard')
 DB_USER = os.environ.get('DB_USER', 'postgres')
-DB_PASS = os.environ.get('DB_PASS', 'Bapun12')
+DB_PASS = os.environ.get('DB_PASS', 'Bapun@123')
 DB_PORT = os.environ.get('DB_PORT', '5432')
 
 def get_db_conn():
