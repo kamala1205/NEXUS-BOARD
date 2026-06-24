@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS history (
 );
 
 
-CREATE TABLE messages (
+CREATE TABLE IF NOT EXISTS messages (
     id SERIAL PRIMARY KEY,
     board_id INT REFERENCES boards(id) ON DELETE CASCADE,
     sender_id INT REFERENCES users(id) ON DELETE CASCADE,
@@ -69,7 +69,7 @@ CREATE TABLE messages (
     deleted_for_all BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE message_deletions (
+CREATE TABLE IF NOT EXISTS message_deletions (
     message_id INT REFERENCES messages(id) ON DELETE CASCADE,
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
     PRIMARY KEY (message_id, user_id)
@@ -83,14 +83,6 @@ CREATE TABLE IF NOT EXISTS login_activity (
     board_id INTEGER REFERENCES boards(id) ON DELETE CASCADE,
     login_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     logout_time TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS time_spent (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    date DATE NOT NULL DEFAULT CURRENT_DATE,
-    seconds INTEGER DEFAULT 0,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -108,9 +100,10 @@ CREATE TABLE IF NOT EXISTS daily_quotes (
   author TEXT
 );
 
-ALTER TABLE users ADD COLUMN avatar_url TEXT;
+ALTER TABLE users
+ADD COLUMN IF NOT EXISTS avatar_url TEXT;
 
-CREATE TABLE completed_tasks (
+CREATE TABLE IF NOT EXISTS completed_tasks (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT,
