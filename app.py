@@ -41,9 +41,18 @@ DB_PASS = os.environ.get('DB_PASS', 'Bapun@123')
 DB_PORT = os.environ.get('DB_PORT', '5432')
 
 def get_db_conn():
-    return psycopg2.connect(
-        host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASS, port=DB_PORT
-    )
+    return psycopg2.connect(os.environ["DATABASE_URL"])
+
+def initialize_database():
+    conn = get_db_conn()
+    cur = conn.cursor()
+
+    with open("create_tables.sql", "r", encoding="utf-8") as f:
+        cur.execute(f.read())
+
+    conn.commit()
+    cur.close()
+    conn.close()
 
 def gen_code():
     return 'NXB' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
@@ -1098,9 +1107,7 @@ def handle_user_active(data):
 
 
 if __name__ == '__main__':
- import os
-import psycopg2
-
-def get_db_conn():
-    return psycopg2.connect(os.environ["DATABASE_URL"])
+  initialize_database()   # Run once when the app starts
+    port = int(os.environ.get("PORT", 5000))
+    socketio.run(app, host="0.0.0.0", port=port)
 
